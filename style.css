@@ -1,0 +1,26 @@
+body {
+    order: solid, 4px, blue;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    margin:0;
+  }
+
+  aside {
+    width: 25%;
+    height: 100vh;
+    padding: 20px;
+  }
+
+  #left-aside {
+    background-color: lightblue;
+  }
+
+  #right-aside {
+    background-color: lightgreen;
+  }
+
+  main {
+    flex-grow: 1;
+    padding: 20px;
+  }
