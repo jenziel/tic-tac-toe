@@ -2,7 +2,7 @@
 var scoreboardLeft = document.querySelector("#left-side-wins")
 var scoreboardRight = document.querySelector("#right-side-wins")
 var promptTurn = document.querySelector("#prompt-user-turn")
-var displaySymbol = document.querySelector(".display-symbol")
+var displayWhoseTurn = document.querySelector(".display-symbol")
 var buttonContainer = document.querySelectorAll(".grid-container")
 var cellButtons = document.querySelectorAll(".cell-button")
 var mainPane = document.querySelector("main")
@@ -17,90 +17,114 @@ var button8 = document.querySelector("#btn8")
 var button9 = document.querySelector("#btn9")
 
 var buttonsArray = [button1, button2, button3, button4, button5, button6, button7, button8, button9]
+var allTiles = ["btn1", "btn2", "btn3", "btn4", "btn5", "btn6", "btn7", "btn8", "btn9"]
+
+var players = [ {
+    name: "✰",
+    tilesSelected: [],
+    isTheirTurn: true,
+    id: "player1",
+}, {
+    name: "☁",
+    tilesSelected: [],
+    isTheirTurn: false,
+    id: "player2",
+}]
 // Event listeners:
-// window.addEventListener("load", showBlankBoard)
 
 mainPane.addEventListener("click", function(){
-    switchPlayer()
+    reAssignWhoseTurn()
+    switchHeading()
     displayPlayerTurn()
 })
 
 button1.addEventListener("click", function(event){
-    if(promptTurn.classList.contains("player-1-active")){
-        button1.innerText = "✰"
-    } else {button1.innerText = "☁"}
+    updateGridSymbol(button1)
+    addButtonToHistory("btn1")
 })
 
 button2.addEventListener("click", function(event){
-    if(promptTurn.classList.contains("player-1-active")){
-        button2.innerText = "✰"
-    } else {button2.innerText = "☁"}
-})
+    updateGridSymbol(button2)
+    addButtonToHistory("btn2")
+    })
 
 button3.addEventListener("click", function(event){
-    if(promptTurn.classList.contains("player-1-active")){
-        button3.innerText = "✰"
-    } else {button3.innerText = "☁"}
-})
+    updateGridSymbol(button3)
+    addButtonToHistory("btn3")
+    })
 
 button4.addEventListener("click", function(event){
-    if(promptTurn.classList.contains("player-1-active")){
-    button4.innerText = "✰"
-} else {button4.innerText = "☁"}
-})
+    updateGridSymbol(button4)
+    addButtonToHistory("btn4")
+    })
 
 button5.addEventListener("click", function(event){
-    if(promptTurn.classList.contains("player-1-active")){
-        button5.innerText = "✰"
-    } else {button5.innerText = "☁"}
-    
-})
+    updateGridSymbol(button5)
+    addButtonToHistory("btn5")
+    })
+
 button6.addEventListener("click", function(event){
-    if(promptTurn.classList.contains("player-1-active")){
-        button6.innerText = "✰"
-    } else {button6.innerText = "☁"} 
-})
+    updateGridSymbol(button6)
+    addButtonToHistory("btn6")
+    })
+
 button7.addEventListener("click", function(event){
-    if(promptTurn.classList.contains("player-1-active")){
-        button7.innerText = "✰"
-    } else {button7.innerText = "☁"} 
-})
+    updateGridSymbol(button7)
+    addButtonToHistory("btn7")
+    })
+
 button8.addEventListener("click", function(event){
-    if(promptTurn.classList.contains("player-1-active")){
-        button8.innerText = "✰"
-    } else {button8.innerText = "☁"} 
-})
+    updateGridSymbol(button8)
+    addButtonToHistory("btn8")
+    })
+
 button9.addEventListener("click", function(event){
-    if(promptTurn.classList.contains("player-1-active")){
-        button9.innerText = "✰"
-    } else {button9.innerText = "☁"} 
-})
-function switchPlayer(){
-    if (promptTurn.classList.contains("player-1-active")){
-        promptTurn.classList.add("player-2-active")
-        promptTurn.classList.remove("player-1-active")
-    } else if (promptTurn.classList.contains("player-2-active")){
-        promptTurn.classList.add("player-1-active")
-        promptTurn.classList.remove("player-2-active")
+    updateGridSymbol(button9)
+    addButtonToHistory("btn9")
+    })
+
+function updateGridSymbol(buttonName){
+        if(players[0].isTheirTurn === true){
+           buttonName.innerText = [players[0].name]
+        } else {buttonName.innerText = [players[1].name]}
     }
-}
-function displayPlayerTurn(){
-    if(promptTurn.classList.contains("player-1-active")){
-        displaySymbol.innerText = "✰"
+
+
+function addButtonToHistory(specificButton){
+    var buttonName = specificButton
+    if (players[0].isTheirTurn === true){
+        players[0].tilesSelected.push(buttonName)
     } else {
-        displaySymbol.innerText = "☁"
+        players[1].tilesSelected.push(buttonName)
     }
 }
 
-// Function(s) to display the game board and user data:
 
-function showBlankBoard(){
-    
+function reAssignWhoseTurn(){
+    if (players[0].isTheirTurn === true){
+        players[1].isTheirTurn = true 
+        players[0].isTheirTurn = false
+    } else {
+        players[0].isTheirTurn = true
+        players[1].isTheirTurn = false
+    }
 }
-//A function that creates the objects that store each players’ informations - properties should include: id (ex: 'one'), token (ex: '⭐️'), wins (ex: 0)
-// A function called increaseWins - increases the count of a player’s wins (should work for either player)
-// A function that keeps track of the data for the game board
-// A function that keeps track of which player’s turn it currently is
-// A function that checks the game board data for win conditions
-// A function that detects when a game is a draw (no one has won)
-// A function that resets the game board’s data to begin a new game
+
+function switchHeading(){
+    if (players[0].isTheirTurn === true){
+        promptTurn.classList.add(`${players[0].id}-active`)
+        promptTurn.classList.remove(`${players[1].id}-active`)
+    } else {
+        promptTurn.classList.add(`${players[1].id}-active`)
+        promptTurn.classList.remove(`${players[0].id}-active`)
+
+    }
+}
+
+function displayPlayerTurn(){
+    if(players[0].isTheirTurn === true){
+        displayWhoseTurn.innerText = [players[0].name]
+    } else {
+        displayWhoseTurn.innerText = [players[1].name]
+    }
+}
