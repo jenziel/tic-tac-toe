@@ -18,6 +18,7 @@ var button9 = document.querySelector("#btn9")
 
 var buttonsArray = [button1, button2, button3, button4, button5, button6, button7, button8, button9]
 var allTiles = ["btn1", "btn2", "btn3", "btn4", "btn5", "btn6", "btn7", "btn8", "btn9"]
+var winningCombinations = [["btn1", "btn2", "btn3"], ["btn4", "btn5", "btn6"], ["btn7", "btn8", "btn9"], ["btn 1", "btn4", "btn7"], ["btn2", "btn5", "btn8"], ["btn3", "btn6", "btn9"], ["btn1", "btn5", "btn9"], ["btn3", "btn5", "btn7"]]
 
 var players = [ {
     name: "✰",
@@ -127,4 +128,7 @@ function displayPlayerTurn(){
     } else {
         displayWhoseTurn.innerText = [players[1].name]
     }
+}
+function checkForWinner(){
+    if players[0].history.includes(["btn1", "btn2", "btn3"],)
 }
