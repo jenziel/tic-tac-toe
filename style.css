@@ -35,7 +35,6 @@ body {
     padding-bottom: 44px;
   }
   .grid-container {
-    /* background-image: url(./assets/1000_F_507909490_RwUDYVlg1XLfgLn64kfjg4ubcaRzTG6D.jpg); */
     background-color: blue;
     display: grid;
     height: 70%;
@@ -43,8 +42,7 @@ body {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr); 
     grid-gap: 26px;
-    /* height: 60%;
-    width: 90%; */
+
   }
 
   .grid-cell {
@@ -53,7 +51,6 @@ body {
     display:flex;
     justify-content: center;
     align-items: center;
-    font-size: xxx-large;
   }
 
   .cell-button {
@@ -62,4 +59,5 @@ body {
     background-color: transparent;
     border: none;
     cursor: pointer;
+    font-size: xxx-large;
   }
