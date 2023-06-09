@@ -1,10 +1,12 @@
 body {
-    order: solid, 4px, blue;
     display: flex;
     flex-direction: row;
     height: 100vh;
     margin:0;
   }
+#prompt-user-turn {
+  padding: 40px;
+}
   
 
   aside {
@@ -14,7 +16,7 @@ body {
   }
 
   #left-aside {
-    background-color: lightblue;
+    background-color: plum;
   }
 
   #right-aside {
@@ -34,7 +36,7 @@ body {
   }
   .grid-container {
     /* background-image: url(./assets/1000_F_507909490_RwUDYVlg1XLfgLn64kfjg4ubcaRzTG6D.jpg); */
-    background-color: #a8ccee;
+    background-color: blue;
     display: grid;
     height: 70%;
     width: 84%;
@@ -45,11 +47,19 @@ body {
     width: 90%; */
   }
 
-  .grid-item {
+  .grid-cell {
     background-image: url(./assets/1000_F_507909490_RwUDYVlg1XLfgLn64kfjg4ubcaRzTG6D.jpg);
     padding: 20px;
     display:flex;
     justify-content: center;
     align-items: center;
     font-size: xxx-large;
+  }
+
+  .cell-button {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
   }
