@@ -2,6 +2,8 @@
 var scoreboardLeft = document.querySelector("#left-side-wins")
 var scoreboardRight = document.querySelector("#right-side-wins")
 var promptTurn = document.querySelector("#prompt-user-turn")
+var player1Wins = document.querySelector("#left-side-wins")
+var player2Wins = document.querySelector("#right-side-wins")
 var displayWhoseTurn = document.querySelector(".display-symbol")
 var buttonContainer = document.querySelectorAll(".grid-container")
 var cellButtons = document.querySelectorAll(".cell-button")
@@ -32,6 +34,7 @@ var players = [ {
     id: "player1",
     isWinner: false,
     isDraw: false,
+    numWins: 0,
 }, {
     name: "☁",
     history: [],
@@ -39,6 +42,7 @@ var players = [ {
     id: "player2",
     isWinner: false,
     isDraw: false, 
+    numWins: 0,
 }]
 
 // Event listeners:
@@ -46,74 +50,20 @@ var players = [ {
 mainPane.addEventListener("click", function(event){
     var button = event.target.closest(".cell-button")
     for( var i = 0; i < buttonsObjectArray.length; i++){
-        if (button.id === buttonsObjectArray[i].name){
+        if (button.innerText.length === 0 && button.id === buttonsObjectArray[i].name){
             buttonsObjectArray[i].hasBeenClicked = true
             displayPlayerTurn()
             updateGridSymbol(button)
             addButtonToHistory(button.id)
             checkForWinner()
+            displayWinner()
             reAssignWhoseTurn()
         } else {
         letPlayerRepeatTurn()
         displayPlayerTurn()
-        checkForWinner()
     }
 }  
 })
-
-// button1.addEventListener("click", function(event){
-//     updateGridSymbol(button1)
-//     addButtonToHistory("btn1")
-//     button1.hasBeenClicked = true
-// })
-
-// button2.addEventListener("click", function(event){
-//     updateGridSymbol(button2)
-//     addButtonToHistory("btn2")
-//     button2.hasBeenClicked = true
-//     })
-
-// button3.addEventListener("click", function(event){
-//     updateGridSymbol(button3)
-//     addButtonToHistory("btn3")
-//     button3.hasBeenClicked = true
-//     })
-
-// button4.addEventListener("click", function(event){
-//     updateGridSymbol(button4)
-//     addButtonToHistory("btn4")
-//     button4.hasBeenClicked = true
-//     })
-
-// button5.addEventListener("click", function(event){
-//     updateGridSymbol(button5)
-//     addButtonToHistory("btn5")
-//     button5.hasBeenClicked = true
-//     })
-
-// button6.addEventListener("click", function(event){
-//     updateGridSymbol(button6)
-//     addButtonToHistory("btn6")
-//     button6.hasBeenClicked = true
-//     })
-
-// button7.addEventListener("click", function(event){
-//     updateGridSymbol(button7)
-//     addButtonToHistory("btn7")
-//     button7.hasBeenClicked = true
-//     })
-
-// button8.addEventListener("click", function(event){
-//     updateGridSymbol(button8)
-//     addButtonToHistory("btn8")
-//     button8.hasBeenClicked = true
-//     })
-
-// button9.addEventListener("click", function(event){
-//     updateGridSymbol(button9)
-//     addButtonToHistory("btn9")
-//     button9.hasBeenClicked = true
-//     })
 
 function updateGridSymbol(buttonName){
         if (buttonName.innerText === ""){
@@ -123,7 +73,7 @@ function updateGridSymbol(buttonName){
         }
         if (buttonName.innerText.length > 0){
             letPlayerRepeatTurn()
-            keepHeadingTheSame()
+            displayPlayerTurn()
         }
     }
 
@@ -181,5 +131,54 @@ function checkForWinner(){
         players[1].isDraw = true  
     }
 }
+
+function displayWinner(){
+if (players[0].isWinner === true){
+    players[0].numWins += 1
+    player1Wins.innerText = players[0].numWins
+    promptTurn.innerHTML = `<h1 id="prompt-user-turn">${players[0].name} won!</h1>`
+
+ } else if (players[1].isWinner === true){
+    players[1].numWins += 1
+    player2Wins.innerText = players[1].numWins
+    promptTurn.innerHTML = `<h1 id="prompt-user-turn">${players[1].name} won!</h1>`
+ }
+ if (players[0].isDraw) {
+    promptTurn.innerHTML = `<h1 id="prompt-user-turn">It's a draw!</h1>`
+ }
+}
+
+// function resetBoard(){
+//     if (players[0].isWinner || players[1].isWinner ){
+//         innerHTML ="<div class="grid-cell">
+//         <button id="btn1" class="cell-button"></button>
+//       </div>
+//       <div class="grid-cell" >
+//         <button id="btn2" class="cell-button"></button>
+//       </div>
+//       <div class="grid-cell">
+//         <button id="btn3" class="cell-button"></button>
+//       </div>
+//       <div class="grid-cell">
+//         <button id="btn4" class="cell-button"></button>
+//       </div>
+//       <div class="grid-cell">
+//         <button id="btn5" class="cell-button"></button>
+//       </div>
+//       <div class="grid-cell">
+//         <button id="btn6" class="cell-button"></button>
+//       </div>
+//       <div class="grid-cell">
+//         <button  id="btn7" class="cell-button"></button>
+//       </div>
+//       <div class="grid-cell">
+//         <button id="btn8" class="cell-button"></button>
+//       </div>
+//       <div class="grid-cell">
+//         <button id="btn9" class="cell-button"></button>
+//       </div>"
+//     }
+// }
+
 
 
