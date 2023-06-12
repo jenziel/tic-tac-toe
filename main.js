@@ -16,8 +16,9 @@ var btn8 = document.querySelector("#btn8");
 var btn9 = document.querySelector("#btn9");
 
 
+// Global Variables:
 
-var buttonsObjectArray = [
+var gameBoardBtns = [
   { name: "btn1", hasBeenClicked: false },
   { name: "btn2", hasBeenClicked: false },
   { name: "btn3", hasBeenClicked: false },
@@ -29,7 +30,7 @@ var buttonsObjectArray = [
   { name: "btn9", hasBeenClicked: false },
 ];
 
-var winningCombinations = [
+var winningCombos = [
   ["btn1", "btn2", "btn3"],
   ["btn4", "btn5", "btn6"],
   ["btn7", "btn8", "btn9"],
@@ -42,7 +43,7 @@ var winningCombinations = [
 
 var players = [
   {
-    name: "✰",
+    id: "✰",
     history: [],
     isTheirTurn: true,
     isWinner: false,
@@ -51,7 +52,7 @@ var players = [
     goesFirst: true,
   },
   {
-    name: "☁",
+    id: "☁",
     history: [],
     isTheirTurn: false,
     isWinner: false,
@@ -61,41 +62,45 @@ var players = [
   },
 ];
 
-// Event listeners:
+// Event Listeners:
 
 mainPane.addEventListener("click", function (event) {
   var button = event.target.closest(".cell-button");
-  for (var i = 0; i < buttonsObjectArray.length; i++) {
+  for (var i = 0; i < gameBoardBtns.length; i++) {
     if (
       button.innerText.length === 0 &&
-      button.id === buttonsObjectArray[i].name
+      button.id === gameBoardBtns[i].name
     ) {
-      buttonsObjectArray[i].hasBeenClicked = true;
-      addButtonToHistory(buttonsObjectArray[i].name)
+      gameBoardBtns[i].hasBeenClicked = true;
+      addButtonToHistory(button.id)
       updateGridSymbol(button)
-      checkForWinner();// separate into one helper function
-      if (
-        players[0].isWinner === false &&
-        players[1].isWinner === false &&
-        players[0].isDraw === false
-      ) {
-        reAssignWhoseTurn();
-        displayWhoseTurn();
-      } else {
-        displayWinnerHelper();
-        resetTheGame();
-      }
+      checkForWin()
+      determineIfGameContinues()
     } else {
       letPlayerRepeatTurn();
     }
   }
 });
 
+function determineIfGameContinues(){
+    if (
+        players[0].isWinner === false &&
+        players[1].isWinner === false &&
+        players[0].isDraw === false
+      ) {
+        reassignWhoseTurn();
+        displayWhoseTurn();
+      } else {
+        resolveCompletedGame();
+        resetTheGame();
+      }
+}
+
 function updateGridSymbol(buttonName) {
   if (buttonName.innerText === "") {
     for (var i = 0; i < players.length; i++) {
       if (players[i].isTheirTurn === true) {
-        buttonName.innerText = players[i].name;
+        buttonName.innerText = players[i].id;
       }
     }
     if (buttonName.innerText.length > 0) {
@@ -112,7 +117,7 @@ function addButtonToHistory(buttonName) {
   }
 }
 
-function reAssignWhoseTurn() {
+function reassignWhoseTurn() {
   for (let i = 0; i < players.length; i++) {
     players[i].isTheirTurn = !players[i].isTheirTurn;
   }
@@ -129,7 +134,7 @@ function letPlayerRepeatTurn() {
 function displayWhoseTurn() {
   for (var i = 0; i < players.length; i++) {
     if (players[i].isTheirTurn === true) {
-      mainMessage.innerText = `It's ${players[i].name}'s turn`;
+      mainMessage.innerText = `It's ${players[i].id}'s turn`;
     }
   }
 }
@@ -137,7 +142,7 @@ function displayWhoseTurn() {
 function showGameResults() {
   for (var i = 0; i < players.length; i++) {
     if (players[i].isWinner === true) {
-        mainMessage.innerText = `${players[i].name} wins!`;
+        mainMessage.innerText = `${players[i].id} wins!`;
     }
     if (players[i].isDraw === true) {
         mainMessage.innerText = "It's A Draw!";
@@ -145,68 +150,75 @@ function showGameResults() {
   }
 }
 
-function checkForWinner() {
-  var p1Moves = players[0].history;
-  var p2Moves = players[1].history;
-  for (var i = 0; i < winningCombinations.length; i++) {
-    if (
-      p1Moves.includes(winningCombinations[i][0]) &&
-      p1Moves.includes(winningCombinations[i][1]) &&
-      p1Moves.includes(winningCombinations[i][2])
-    ) {
-      return (players[0].isWinner = true);
+function checkForWin() {
+  detectWinner()
+  detectDraw()
+}
+
+function detectWinner(){
+    for (var i = 0; i < winningCombos.length; i++) {
+        if (
+            players[0].history.includes(winningCombos[i][0]) &&
+            players[0].history.includes(winningCombos[i][1]) &&
+            players[0].history.includes(winningCombos[i][2])
+        ) {
+          return (players[0].isWinner = true);
+        }
+        if (
+            players[1].history.includes(winningCombos[i][0]) &&
+            players[1].history.includes(winningCombos[i][1]) &&
+            players[1].history.includes(winningCombos[i][2])
+        ) {
+          return (players[1].isWinner = true);
+        }
+      }
+}
+
+function detectDraw(){
+    for (var i = 0; i < winningCombos.length; i++){
+        if (players[0].history.length + players[1].history.length === 9) {
+            players[0].isDraw = true;
+            players[1].isDraw = true;
+          }
     }
-    if (
-      p2Moves.includes(winningCombinations[i][0]) &&
-      p2Moves.includes(winningCombinations[i][1]) &&
-      p2Moves.includes(winningCombinations[i][2])
-    ) {
-      return (players[1].isWinner = true);
+}
+
+function updateWins(){
+    for (var i = 0; i < players.length; i++) {
+        if (players[i].isWinner === true) {
+          players[i].numWins += 1;
+        }
     }
-  }
-  if (p1Moves.length + p2Moves.length === 9) {
-    players[0].isDraw = true;
-    players[1].isDraw = true;
-  }
 }
 
 function updateScoreBoard() {
-  if (
-    players[0].isWinner === false &&
-    players[1].isWinner === false &&
-    players[0].isDraw === false
-  ) {
-    reAssignWhoseTurn();
-  } else {
     for (var i = 0; i < players.length; i++) {
       if (players[i].isWinner === true) {
-        players[i].numWins += 1;
         player1Wins.innerText = players[0].numWins;
         player2Wins.innerText = players[1].numWins;
       }
     }
   }
-}
 
-function displayWinnerHelper() {
-  checkForWinner();
+function resolveCompletedGame() {
   for (var i = 0; i < players.length; i++) {
     if (players[i].isWinner === true || players[i].isDraw === true) {
-      updateScoreBoard();
-      showGameResults();
+        updateWins();
+        updateScoreBoard();
+        showGameResults();
+        disableTicTacToeBoard()
     }
   }
 }
 
 function resetTheGame() {
-  if (players[0].isWinner || players[1].isWinner || players[0].isDraw) {
     setTimeout(function () {
-      clearGameHistory();
-      alternateWhoStartsGame();
-      resetBoard();
-      resetCardData();
+        clearGameHistory();
+        alternateWhoStartsGame();
+        resetBoard();
+        resetCardData();
+        enableTicTacToeBoard();
     }, 5000);
-  }
 }
 
 function reAssignWhoGoesFirst() {
@@ -218,15 +230,13 @@ function reAssignWhoGoesFirst() {
 function resetBoard() {
   for (var i = 0; i < players.length; i++) {
     if (players[i].isTheirTurn === true) {
-      mainMessage.innerText = `It's ${players[i].name}'s turn`;
+      mainMessage.innerText = `It's ${players[i].id}'s turn`;
     }
-  }
-  for (var i = 0; i < buttonsObjectArray.length; i++){
-    var resetThisElement = buttonsObjectArray[i].name
+  } for (var i = 0; i < gameBoardBtns.length; i++){
+    var resetThisElement = gameBoardBtns[i].name
     result = eval(resetThisElement)
     result.innerText = ""
   }
-
 }
 
 function clearGameHistory() {
@@ -248,7 +258,20 @@ function alternateWhoStartsGame() {
 }
 
 function resetCardData() {
-  for (var i = 0; i < buttonsObjectArray.length; i++) {
-    buttonsObjectArray[i].hasBeenClicked = false;
+  for (var i = 0; i < gameBoardBtns.length; i++) {
+    gameBoardBtns[i].hasBeenClicked = false;
   }
+}
+
+function disableTicTacToeBoard(){
+    for (var i = 0; i < cellButtons.length; i++){
+        if (cellButtons[i].innerText === ""){
+            cellButtons[i].disabled = true
+        }
+    }
+}
+function enableTicTacToeBoard(){
+    for (var i = 0; i < cellButtons.length; i++){
+            cellButtons[i].disabled = false
+    }
 }

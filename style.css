@@ -81,3 +81,7 @@ body {
     cursor: pointer;
     font-size: xxx-large;
   }
+
+  button:disabled {
+    opacity: .9;
+  }
