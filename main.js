@@ -1,4 +1,4 @@
-// Query selectors:
+// DOM Variables:
 var player1Wins = document.querySelector("#left-side-wins");
 var player2Wins = document.querySelector("#right-side-wins");
 var mainMessage = document.querySelector(".main-title");
@@ -14,6 +14,8 @@ var btn6 = document.querySelector("#btn6");
 var btn7 = document.querySelector("#btn7");
 var btn8 = document.querySelector("#btn8");
 var btn9 = document.querySelector("#btn9");
+
+
 
 var buttonsObjectArray = [
   { name: "btn1", hasBeenClicked: false },
@@ -43,7 +45,6 @@ var players = [
     name: "✰",
     history: [],
     isTheirTurn: true,
-    id: "player1",
     isWinner: false,
     isDraw: false,
     numWins: 0,
@@ -53,7 +54,6 @@ var players = [
     name: "☁",
     history: [],
     isTheirTurn: false,
-    id: "player2",
     isWinner: false,
     isDraw: false,
     numWins: 0,
@@ -73,7 +73,7 @@ mainPane.addEventListener("click", function (event) {
       buttonsObjectArray[i].hasBeenClicked = true;
       addButtonToHistory(buttonsObjectArray[i].name)
       updateGridSymbol(button)
-      checkForWinner();
+      checkForWinner();// separate into one helper function
       if (
         players[0].isWinner === false &&
         players[1].isWinner === false &&
@@ -218,20 +218,15 @@ function reAssignWhoGoesFirst() {
 function resetBoard() {
   for (var i = 0; i < players.length; i++) {
     if (players[i].isTheirTurn === true) {
-      var newTitle = `<h1 class="main-title">It's ${players[i].name}'s turn</h1>`;
+      mainMessage.innerText = `It's ${players[i].name}'s turn`;
     }
   }
-  mainPane.innerHTML = newTitle;
-  var newDiv = document.createElement("div");
-  newDiv.className = "grid-container";
-  var gridStructure = "";
-  for (var i = 0; i < buttonsObjectArray.length; i++) {
-    gridStructure += `<div class="grid-cell">
-            <button id=${buttonsObjectArray[i].name} class="cell-button"></button>
-          </div>`;
+  for (var i = 0; i < buttonsObjectArray.length; i++){
+    var resetThisElement = buttonsObjectArray[i].name
+    result = eval(resetThisElement)
+    result.innerText = ""
   }
-  newDiv.innerHTML = gridStructure;
-  mainPane.appendChild(newDiv);
+
 }
 
 function clearGameHistory() {
