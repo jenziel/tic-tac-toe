@@ -50,11 +50,9 @@ mainPane.addEventListener("click", function(event){
     var button = event.target.closest(".cell-button")
     for( var i = 0; i < buttonsObjectArray.length; i++){
         if (button.innerText.length === 0 && button.id === buttonsObjectArray[i].name){
-            // displayWhoseTurn()
             buttonsObjectArray[i].hasBeenClicked = true
             addButtonToHistory(button.id)
             checkForWinner()
-            showGameResults()
             updateGridSymbol(button)
             if (players[0].isWinner === false && players[1].isWinner === false && players[0].isDraw === false){
                 reAssignWhoseTurn()
@@ -106,14 +104,14 @@ function letPlayerRepeatTurn(){
 }
 
 function displayWhoseTurn(){
-    if(players[0].isWinner === false && players[1].isWinner === false && players[0].isDraw === false){
+    // if(players[0].isWinner === false && players[1].isWinner === false && players[0].isDraw === false){
         for (var i = 0; i < players.length; i++){
             if (players[i].isTheirTurn === true){
                 mainMessage.innerText = `It's ${players[i].name}'s turn`
             }
         }
     } 
-}
+// }
 
 function showGameResults(){
     for (var i = 0; i < players.length; i++){
@@ -167,6 +165,7 @@ function displayWinnerHelper(){
     for (var i = 0; i < players.length; i++){
         if (players[i].isWinner === true || players[i].isDraw === true){
             updateScoreBoard()
+            showGameResults()
         }
     }
 }
@@ -199,33 +198,13 @@ function resetBoard(){
             mainPane.innerHTML = newTitle
             var newDiv = document.createElement("div")
             newDiv.className = "grid-container"
-            newDiv.innerHTML =`<div class="grid-cell">
-            <button id="btn1" class="cell-button"></button>
-          </div>
-          <div class="grid-cell" >
-            <button id="btn2" class="cell-button"></button>
-          </div>
-          <div class="grid-cell">
-            <button id="btn3" class="cell-button"></button>
-          </div>
-          <div class="grid-cell">
-            <button id="btn4" class="cell-button"></button>
-          </div>
-          <div class="grid-cell">
-            <button id="btn5" class="cell-button"></button>
-          </div>
-          <div class="grid-cell">
-            <button id="btn6" class="cell-button"></button>
-          </div>
-          <div class="grid-cell">
-            <button  id="btn7" class="cell-button"></button>
-          </div>
-          <div class="grid-cell">
-            <button id="btn8" class="cell-button"></button>
-          </div>
-          <div class="grid-cell">
-            <button id="btn9" class="cell-button"></button>
+            var gridStructure = ""
+            for (var i = 0; i < buttonsObjectArray.length; i++){
+            gridStructure += `<div class="grid-cell">
+            <button id=${buttonsObjectArray[i].name} class="cell-button"></button>
           </div>`
+            }
+            newDiv.innerHTML = gridStructure
           mainPane.appendChild(newDiv)
         }
     
