@@ -14,10 +14,19 @@ body {
   
 
   aside {
-    justify-content: center;
+    /* justify-content: center; */
     width: 25%;
     height: 100%;
     padding: 20px;
+  }
+
+  h1 {
+    font-size: xx-large;
+  }
+
+  p {
+    margin-top: 40px;
+    margin-left: 20px;
   }
 
   #left-aside {
@@ -26,6 +35,13 @@ body {
 
   #right-aside {
     background-color: lightgreen;
+  }
+
+  aside {
+    display: flex;
+    padding-top: 120px;
+    flex-direction: row;
+    justify-content: center;
   }
 
   main {
