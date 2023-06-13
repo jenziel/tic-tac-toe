@@ -78,17 +78,11 @@ mainPane.addEventListener("click", function (event) {
   }
 });
 
-function determineIfGameContinues() {
-  if (
-    players[0].isWinner === false &&
-    players[1].isWinner === false &&
-    players[0].isDraw === false
-  ) {
-    reassignWhoseTurn();
-    displayWhoseTurn();
-  } else {
-    resolveCompletedGame();
-    resetTheGame();
+function addButtonToHistory(buttonName) {
+  for (var i = 0; i < players.length; i++) {
+    if (players[i].isTheirTurn === true) {
+      players[i].history.push(buttonName);
+    }
   }
 }
 
@@ -101,47 +95,6 @@ function updateGridSymbol(buttonName) {
     }
     if (buttonName.innerText.length > 0) {
       return letPlayerRepeatTurn();
-    }
-  }
-}
-
-function addButtonToHistory(buttonName) {
-  for (var i = 0; i < players.length; i++) {
-    if (players[i].isTheirTurn === true) {
-      players[i].history.push(buttonName);
-    }
-  }
-}
-
-function reassignWhoseTurn() {
-  for (let i = 0; i < players.length; i++) {
-    players[i].isTheirTurn = !players[i].isTheirTurn;
-  }
-}
-
-function letPlayerRepeatTurn() {
-  for (var i = 0; i < players.length; i++) {
-    if (players[i].isTheirTurn === true) {
-      players[i].isTheirTurn = true;
-    }
-  }
-}
-
-function displayWhoseTurn() {
-  for (var i = 0; i < players.length; i++) {
-    if (players[i].isTheirTurn === true) {
-      mainMessage.innerText = `It's ${players[i].id}'s turn`;
-    }
-  }
-}
-
-function showGameResults() {
-  for (var i = 0; i < players.length; i++) {
-    if (players[i].isWinner === true) {
-      mainMessage.innerText = `${players[i].id} wins!`;
-    }
-    if (players[i].isDraw === true) {
-      mainMessage.innerText = "It's A Draw!";
     }
   }
 }
@@ -181,6 +134,45 @@ function detectDraw() {
   }
 }
 
+function determineIfGameContinues() {
+  if (
+    players[0].isWinner === false &&
+    players[1].isWinner === false &&
+    players[0].isDraw === false
+  ) {
+    reassignWhoseTurn();
+    displayWhoseTurn();
+  } else {
+    resolveCompletedGame();
+    resetTheGame();
+  }
+}
+
+function reassignWhoseTurn() {
+  for (let i = 0; i < players.length; i++) {
+    players[i].isTheirTurn = !players[i].isTheirTurn;
+  }
+}
+
+function displayWhoseTurn() {
+  for (var i = 0; i < players.length; i++) {
+    if (players[i].isTheirTurn === true) {
+      mainMessage.innerText = `It's ${players[i].id}'s turn`;
+    }
+  }
+}
+
+function resolveCompletedGame() {
+  for (var i = 0; i < players.length; i++) {
+    if (players[i].isWinner === true || players[i].isDraw === true) {
+      updateWins();
+      updateScoreBoard();
+      showGameResults();
+      disableTicTacToeBoard();
+    }
+  }
+}
+
 function updateWins() {
   for (var i = 0; i < players.length; i++) {
     if (players[i].isWinner === true) {
@@ -198,13 +190,21 @@ function updateScoreBoard() {
   }
 }
 
-function resolveCompletedGame() {
+function showGameResults() {
   for (var i = 0; i < players.length; i++) {
-    if (players[i].isWinner === true || players[i].isDraw === true) {
-      updateWins();
-      updateScoreBoard();
-      showGameResults();
-      disableTicTacToeBoard();
+    if (players[i].isWinner === true) {
+      mainMessage.innerText = `${players[i].id} wins!`;
+    }
+    if (players[i].isDraw === true) {
+      mainMessage.innerText = "It's A Draw!";
+    }
+  }
+}
+
+function disableTicTacToeBoard() {
+  for (var i = 0; i < cellButtons.length; i++) {
+    if (cellButtons[i].innerText === "") {
+      cellButtons[i].disabled = true;
     }
   }
 }
@@ -217,25 +217,6 @@ function resetTheGame() {
     resetCardData();
     enableTicTacToeBoard();
   }, 5000);
-}
-
-function reAssignWhoGoesFirst() {
-  for (var i = 0; i < players.length; i++) {
-    players[i].goesFirst = !players[i].goesFirst;
-  }
-}
-
-function resetBoard() {
-  for (var i = 0; i < players.length; i++) {
-    if (players[i].isTheirTurn === true) {
-      mainMessage.innerText = `It's ${players[i].id}'s turn`;
-    }
-  }
-  for (var i = 0; i < gameBoardBtns.length; i++) {
-    var resetThisElement = gameBoardBtns[i].name;
-    result = eval(resetThisElement);
-    result.innerText = "";
-  }
 }
 
 function clearGameHistory() {
@@ -256,21 +237,35 @@ function alternateWhoStartsGame() {
   }
 }
 
+function resetBoard() {
+  for (var i = 0; i < players.length; i++) {
+    if (players[i].isTheirTurn === true) {
+      mainMessage.innerText = `It's ${players[i].id}'s turn`;
+    }
+  }
+  for (var i = 0; i < gameBoardBtns.length; i++) {
+    var resetThisElement = gameBoardBtns[i].name;
+    result = eval(resetThisElement);
+    result.innerText = "";
+  }
+}
+
 function resetCardData() {
   for (var i = 0; i < gameBoardBtns.length; i++) {
     gameBoardBtns[i].hasBeenClicked = false;
   }
 }
 
-function disableTicTacToeBoard() {
-  for (var i = 0; i < cellButtons.length; i++) {
-    if (cellButtons[i].innerText === "") {
-      cellButtons[i].disabled = true;
-    }
-  }
-}
 function enableTicTacToeBoard() {
   for (var i = 0; i < cellButtons.length; i++) {
     cellButtons[i].disabled = false;
+  }
+}
+
+function letPlayerRepeatTurn() {
+  for (var i = 0; i < players.length; i++) {
+    if (players[i].isTheirTurn === true) {
+      players[i].isTheirTurn = true;
+    }
   }
 }
