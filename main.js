@@ -41,6 +41,7 @@ var winningCombos = [
   ["btn3", "btn5", "btn7"],
 ];
 
+
 var players = [
   {
     id: "✰",
@@ -74,7 +75,7 @@ mainPane.addEventListener("click", function (event) {
       gameBoardBtns[i].hasBeenClicked = true;
       addButtonToHistory(button.id)
       updateGridSymbol(button)
-      checkForWin()
+      detectGameResult()
       determineIfGameContinues()
     } else {
       letPlayerRepeatTurn();
@@ -150,7 +151,7 @@ function showGameResults() {
   }
 }
 
-function checkForWin() {
+function detectGameResult() {
   detectWinner()
   detectDraw()
 }
@@ -175,13 +176,12 @@ function detectWinner(){
 }
 
 function detectDraw(){
-    for (var i = 0; i < winningCombos.length; i++){
-        if (players[0].history.length + players[1].history.length === 9) {
-            players[0].isDraw = true;
-            players[1].isDraw = true;
-          }
-    }
+    if (players[0].history.length + players[1].history.length === 9 && players[0].isWinner === false && players[1].isWinner === false) {
+        players[0].isDraw = true;
+        players[1].isDraw = true;
+      }
 }
+
 
 function updateWins(){
     for (var i = 0; i < players.length; i++) {
