@@ -1,87 +1,83 @@
 body {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-    margin:0;
-  }
-  ::-webkit-scrollbar {
-    display: none;
-  }
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  margin: 0;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
 
 .main-title {
   padding: 5px;
 }
-  
 
-  aside {
-    /* justify-content: center; */
-    width: 25%;
-    height: 100%;
-    padding: 20px;
-  }
+h1 {
+  padding-top: 110px;
+  font-size: xx-large;
+}
 
-  h1 {
-    font-size: xx-large;
-  }
+p {
+  margin-top: 150px;
+  margin-left: 20px;
+}
 
-  p {
-    margin-top: 40px;
-    margin-left: 20px;
-  }
+#left-aside {
+  background-color: lightskyblue;
+}
 
-  #left-aside {
-    background-color: plum;
-  }
+#right-aside {
+  background-color: lightgreen;
+}
 
-  #right-aside {
-    background-color: lightgreen;
-  }
+aside {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 25%;
+  height: 100%;
+}
 
-  aside {
-    display: flex;
-    padding-top: 120px;
-    flex-direction: row;
-    justify-content: center;
-  }
+main {
+  background-image: url(./assets/1-inch-graph-paper.png);
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding-right: 5px;
+  padding-bottom: 44px;
+}
 
-  main {
-    background-image: url(./assets/1000_F_507909490_RwUDYVlg1XLfgLn64kfjg4ubcaRzTG6D.jpg);
-    flex-grow: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    padding-right: 5px;
-    padding-bottom: 44px;
-  }
-  .grid-container {
-    background-color: blue;
-    display: grid;
-    height: 70%;
-    width: 84%;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr); 
-    grid-gap: 26px;
+.grid-container {
+  background-color: blue;
+  display: grid;
+  height: 70%;
+  width: 84%;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-gap: 26px;
+}
 
-  }
+.grid-cell {
+  background-image: url(./assets/1-inch-graph-paper.png);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .grid-cell {
-    background-image: url(./assets/1000_F_507909490_RwUDYVlg1XLfgLn64kfjg4ubcaRzTG6D.jpg);
-    display:flex;
-    justify-content: center;
-    align-items: center;
-  }
+#left-side-wins,
+#right-side-wins {
+  padding-top: 500px;
+}
 
-  .cell-button {
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: xxx-large;
-  }
-
-  button:disabled {
-    opacity: .9;
-  }
+.cell-button {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: xxx-large;
+}
