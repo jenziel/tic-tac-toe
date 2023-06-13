@@ -40,7 +40,7 @@ aside {
 }
 
 main {
-  background-image: url(./assets/1-inch-graph-paper.png);
+  background-image: url(./assets/1000_F_507909490_RwUDYVlg1XLfgLn64kfjg4ubcaRzTG6D.jpg);
   flex-grow: 1;
   padding: 20px;
   display: flex;
@@ -62,15 +62,10 @@ main {
 }
 
 .grid-cell {
-  background-image: url(./assets/1-inch-graph-paper.png);
+  background-image: url(./assets/1000_F_507909490_RwUDYVlg1XLfgLn64kfjg4ubcaRzTG6D.jpg);
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-#left-side-wins,
-#right-side-wins {
-  padding-top: 500px;
 }
 
 .cell-button {
